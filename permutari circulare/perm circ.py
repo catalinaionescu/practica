@@ -1,3 +1,4 @@
+#ultimul devine primul 
 n = int(input())
 bin = []
 while n > 0:
