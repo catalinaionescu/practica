@@ -1,16 +1,19 @@
-# This is a sample Python script.
+n = int(input())
+bin = []
+while n > 0:
+    m = int(n % 2)
+    bin.append(m)
+    n = int(n / 2)
+bin = bin[::-1]
+maxi = 0
+for i in range(len(bin)):
+    m = bin[len(bin) - 1]
+    bin.insert(0, m)
+    bin.pop()
+    new = 0
+    for j in range(len(bin)):
+        new += bin[j] * pow(2, j)
+    if new > maxi:
+        maxi = new
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(maxi)
