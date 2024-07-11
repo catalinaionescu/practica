@@ -34,5 +34,22 @@ la finalul celor n zile. Linia se va termina obligatoriu cu un caracter newline 
 n = int(input())
 bani = list(map(int, input().split()))
 bombo = []
+suma = 0
+fericire = 0
 for i in range(n):
     bombo.append(list(map(int, input().split())))
+
+for i in range(n):
+    suma += bani[i]
+    if suma - bombo[i][0] >= 0:
+        suma -= bombo[i][0]
+        fericire += bombo[i][1]
+    else:
+        criteriu = 0  # presupun ca nu e nicio aroma mai buna
+        for j in range(i-1):
+            if bombo[i][1] < bombo[j][1]:
+                criteriu = 1  # gasesc o aroma mai buna si dau break la loop
+                break
+        if criteriu == 0:
+            fericire -= bombo[i][1]
+print(fericire, '\n')
