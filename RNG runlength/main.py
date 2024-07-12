@@ -31,7 +31,7 @@ n = int(input())
 sir = input()
 nr_ap = {1: 0}
 i = 0
-if int(sir[len(sir)-1]) == 1:  # verific daca ultimul element
+if int(sir[len(sir)-1]) == 1:  # verific daca ultimul element e egal cu 1
     nr_ap[1] += 1
 while i < len(sir):
     j = i
@@ -49,7 +49,7 @@ while i < len(sir):
                     break
                 else:
                     j += 1
-    if contor not in nr_ap.keys() and contor > 1:  # le init cu 0 cheile in dict
+    if contor not in nr_ap.keys() and contor > 1:  # le init cu 0 val cheilor din dict
         nr_ap[contor] = 0
     if contor > 1 and criteriu == 1:
         nr_ap[contor] += 1  # cresc val ap cu 1
