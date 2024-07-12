@@ -26,7 +26,7 @@ componente fiind câte un spaţiu, ca în exemplul dat în final):
 <Nume echipa> <Numar puncte> <Numar goluri inscrise> < Numar goluri primite>
 
 """
-from typing import List
+
 
 # k nr echipe participante
 # n nr meciuri

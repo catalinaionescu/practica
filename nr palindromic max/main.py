@@ -53,7 +53,7 @@ cifra_jum = ""
 for i in range(len(cifre)):
     if cifre[i][1] % 2 == 1:  # daca gasesc o cifra care apare de un nr impar de ori cresc counter ca sa vad cate cifre s-ar duce la mijloc
         counter1 += 1
-        if counter1 > 1:
+        if counter1 > 1:  # daca e mai mare ca 1 e clar ca nu e palindrom
             criteriu = 0
             break
         elif criteriu == 1:  # daca criteriu e 1 atunci pot sa retin cifra de mijloc

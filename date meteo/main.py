@@ -30,6 +30,7 @@ completarea cu 0 dacă partea întreagă a procentului calculat conține o singu
 va afişa o singură linie, pe care va fi scrisă valoarea 0. Nici o altă afişare nu va mai fi făcută în acest
 caz. Toate valorile afișate sunt urmate de caracterul linie nouă (‘\n’) obținut prin apăsarea tastei Enter."""
 
+
 # N zile consecutive
 # det secv de lung max pt care temp au alternat ca semn
 # daca sunt mai multe secvente o iau pe cea mai recenta
@@ -59,7 +60,7 @@ i = 0
 secv_max = 0
 while i < len(temp) - 1:
     j = i
-    while semn_nr(temp[j]) != semn_nr(temp[j+1]):
+    while semn_nr(temp[j]) != semn_nr(temp[j + 1]):
         contor += 1
         if j == len(temp) - 2:  # daca j ajunge la penultimul element nu trebuie sa treaca de el, da eroare
             break
@@ -67,12 +68,12 @@ while i < len(temp) - 1:
             j += 1
     if contor >= secv_max:
         secv_max = contor
-        secv = temp[i:j+1]
+        secv = temp[i:j + 1]
         contor = 0
     if j < len(temp) - 1:
         i = j
     i += 1
-proc_p = float(nr_poz/len(temp) * 100)
-proc_n = float(nr_neg/len(temp) * 100)
+proc_p = float(nr_poz / len(temp) * 100)
+proc_n = float(nr_neg / len(temp) * 100)
 print(f'{len(secv)}\n{" ".join(map(str, secv))}')
 print(f'+:{proc_p:.2f}% -:{proc_n:.2f}%')
