@@ -1,4 +1,4 @@
-  """
+"""
 Bibliotecara știe
 că are un număr suficient de rafturi încât să pună toate cărțile. Pe fiecare raft încap cărți însumând în
 total D pagini. De asemenea, ştie câte cărţi cu un anumit număr de pagini există în bibliotecă. Dat
