@@ -30,7 +30,7 @@ for i in range(1, n + 1):
     if key not in m:
         m[key] = 0
     m[key] += 1
-    if m[key] > 1 and ok == 0:  # Change 2 to 1 for detecting immediate repeat
+    if m[key] > 2 and ok == 0:
         sus = key
         ok = 1
         break
