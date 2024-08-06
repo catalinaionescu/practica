@@ -36,10 +36,14 @@ catalog = {}
 for i in range(m):
     name = input()
     note = input().split()
-    note = list(map(int, note))
+    note = list(map(float, note))
+    for j in note:
+        if j < 0:
+            raise ValueError('nota invalida!')
     catalog[name] = note
 maxim = 8
 contor = 0
+
 for key, value in catalog.items():
     criteriu = 1
     med = 0

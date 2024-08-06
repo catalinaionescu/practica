@@ -37,33 +37,61 @@ ce au fost plasate pe acel raft, în ordinea plasării lor pe raft (conform regu
 # k linii: 2 nr n - nr carti de grosime p pag
 # out m linii rafturi: dim carti si ordine plasare
 
-def caut_carti(D, carti, nr_carti):
-    for i in range(len(carti)):
-            for j in range(carti[i][0]):
-                if carti[i][1] <= D and carti[i][0] > 0:  # carti[i][0] e nr de carti si carti[i][1] e nr de pagini
-                    print(carti[i][1], end=" ")
-                    D -= carti[i][1]
-                    carti[i][0] -= 1
+
+class Biblioteca:
+    def __init__(self, D, k, carti):
+        self.D = D
+        self.k = k
+        self.carti = carti
+
+    def caut_carti(self):
+        lista_raft = []
+        raft = []
+        capacitate  = self.D
+        for i in range(len(self.carti)):
+            nr_carti, pagini = self.carti[i]
+            while nr_carti:
+                if pagini >= capacitate:
+                    raft.append(pagini)
+                    capacitate -= pagini
                     nr_carti -= 1
-                    if carti[i][0] < 0:  # daca nu mai am carti opresc cautarea
-                        break
-                if carti[i][1] > D:  # daca o carte are prea multe pagini opresc cautarea si trec la urmatoarea
-                    break
-    print()
-    return nr_carti
+                    self.carti[i] = nr_carti, pagini
+            if nr_carti == 0:
+                self.carti[i] = [0, 0]
+            lista_raft.append(raft)
+        return lista_raft
 
+def test_1():
+    D = 200
+    k = 5
+    carti = [[2, 1300], [4, 120], [2, 80], [3, 60], [7, 50]]
+    rafturi = Biblioteca(D, k, carti)
+    assert rafturi.caut_carti() == [[130, 60],
+                                      [130, 60],
+                                      [120, 80],
+                                      [120, 80],
+                                      [120, 60],
+                                      [120, 50],
+                                      [50, 50, 50, 50],
+                                      [50, 50]]
 
-D, k = map(int, input().split())
-carti = []
-nr_carti = 0
-for i in range(k):
-    carti.append(list(map(int, input().split())))
-    if carti[i][1] > D:
-        raise Exception('grosimea mai mare decat D')
-    nr_carti += carti[i][0]  # am facut suma tot a cartilor ca sa imi fie mai usor sa le scad
-
-
-while nr_carti:
-    nr_carti = caut_carti(D, carti, nr_carti)
 
 # voiam sa scot direct din lista cartile care s-au pus pe raft si sa fac while in carti doar ca mi a dat eroare, imi zicea ca e out of range
+
+def test_2():
+    D = 200
+    k = 5
+    carti = [[2, 130], [4, 120], [2, 80], [3, 60], [7, 50]]
+    rafturi = Biblioteca(D, k, carti)
+    assert rafturi.caut_carti() == [[130, 60],
+                                      [130, 60],
+                                      [120, 80],
+                                      [120, 80],
+                                      [120, 60],
+                                      [120, 50],
+                                      [50, 50, 50, 50],
+                                      [50, 50]]
+
+
+test_1()
+test_2()

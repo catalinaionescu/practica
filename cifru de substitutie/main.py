@@ -28,6 +28,6 @@ for i in tabel:
     (key, value) = i.split(',')
     dictio[key] = value
 for i in range(len(txt)):
-    if dictio.get(txt[i]) != None:
+    if dictio.get(txt[i]) is None:
         txt[i] = dictio[txt[i]]
 print(''.join(txt), '\n')
