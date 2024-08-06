@@ -18,17 +18,22 @@ ale zarurilor.
 # prima linie n zaruri suprapuse
 # 2 linie 5 fete viz pentru zar de sus
 #  next linii 4 fete vizibile
+import pytest
 
 
 def suma_fete(n, nr):
+    if not 1 <= n <= 100:
+        raise ValueError('n trebuie sa fie intre 1 si 100')
     sum_tot_zaruri = n * 6 * 7 / 2
     suma_zaruri = 0
     for i in nr:
         for j in i:
             suma_zaruri += j
+            if not 1 <= j <= 6:
+                raise ValueError('fata are numar invalid')
     suma_fina = sum_tot_zaruri - suma_zaruri
     if suma_fina < 0:
-        raise Exception('suma este mai mica decat 0')
+        raise ValueError('suma este mai mica decat 0')
     return suma_fina
 
 
@@ -42,3 +47,18 @@ def test_suma_fete_2():
     n = 2
     lista = [[1, 2, 3, 4, 5], [1, 2, 3, 4]]
     assert suma_fete(n, lista) == 17
+
+def test_suma_fete_3():
+    n = 101
+    lista = [[1, 2, 3, 4, 5], [1, 2, 3, 4]]
+    with pytest.raises(ValueError, match='n trebuie sa fie intre 1 si 100') as excinfo:
+        suma_fete(n, lista)
+    print(excinfo.value)
+
+
+def test_suma_fete_4():
+    n = 2
+    lista = [[1, 2, 3, 4, 8], [1, 2, 3, 4]]
+    with pytest.raises(ValueError, match='fata are numar invalid') as excinfo:
+        suma_fete(n, lista)
+    print(excinfo.value)

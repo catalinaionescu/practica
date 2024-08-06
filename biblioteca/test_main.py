@@ -38,60 +38,93 @@ ce au fost plasate pe acel raft, în ordinea plasării lor pe raft (conform regu
 # out m linii rafturi: dim carti si ordine plasare
 
 
-class Biblioteca:
-    def __init__(self, D, k, carti):
-        self.D = D
-        self.k = k
-        self.carti = carti
+# class Biblioteca:
+#     def __init__(self, D, k, carti):
+#         self.D = D
+#         self.k = k
+#         self.carti = carti
+#
+#     def caut_carti(self):
+#         lista_raft = []
+#         raft = []
+#         capacitate = self.D
+#         for i in range(len(self.carti)):
+#             nr_carti, pagini = self.carti[i]
+#             while nr_carti:
+#                 if pagini >= capacitate:
+#                     raft.append(pagini)
+#                     capacitate -= pagini
+#                     nr_carti -= 1
+#                     self.carti[i] = nr_carti, pagini
+#             if nr_carti == 0:
+#                 self.carti[i] = [0, 0]
+#             lista_raft.append(raft)
+#         return lista_raft
 
-    def caut_carti(self):
-        lista_raft = []
+
+import pytest
+import pdb
+
+
+def caut_carti(D, k, carti):
+    # pdb.set_trace()
+    lista_rafturi = []
+    if len(carti) != k:
+        raise ValueError('difera nr de intrari fata de k dat')
+    for i in carti:
+        if i[1] < 0 or D < 0:
+            raise ValueError('nr invalid')
+    i = 0
+    while i < len(carti):
         raft = []
-        capacitate  = self.D
-        for i in range(len(self.carti)):
-            nr_carti, pagini = self.carti[i]
-            while nr_carti:
-                if pagini >= capacitate:
-                    raft.append(pagini)
-                    capacitate -= pagini
-                    nr_carti -= 1
-                    self.carti[i] = nr_carti, pagini
-            if nr_carti == 0:
-                self.carti[i] = [0, 0]
-            lista_raft.append(raft)
-        return lista_raft
+        pagini = carti[i][1]
+        if pagini > D:
+            raise ValueError('Prea multe pagini')
+        nr_pagini_raft = pagini
+        carti[i][0] -= 1
+        if carti[i][0] >= 0:
+            raft.append(pagini)
+        for j in range(i, len(carti)):
+            while nr_pagini_raft + carti[j][1] <= D and carti[i][0] >= 0 and carti[j][0] > 0:
+                nr_pagini_raft += carti[j][1]
+                carti[j][0] -= 1
+                raft.append(carti[j][1])
+        if len(raft) > 0:
+            lista_rafturi.append(raft)
+        if carti[i][0] <= 0:
+            carti[i][0] = -1
+            i += 1
+    return lista_rafturi
+
 
 def test_1():
     D = 200
     k = 5
-    carti = [[2, 1300], [4, 120], [2, 80], [3, 60], [7, 50]]
-    rafturi = Biblioteca(D, k, carti)
-    assert rafturi.caut_carti() == [[130, 60],
-                                      [130, 60],
-                                      [120, 80],
-                                      [120, 80],
-                                      [120, 60],
-                                      [120, 50],
-                                      [50, 50, 50, 50],
-                                      [50, 50]]
+    carti = [[2, 130], [4, 120], [2, 80], [3, 60], [7, 50]]
+    assert caut_carti(D, k, carti) == [[130, 60], [130, 60], [120, 80], [120, 80], [120, 60], [120, 50], [50, 50, 50, 50], [50, 50]]
 
-
-# voiam sa scot direct din lista cartile care s-au pus pe raft si sa fac while in carti doar ca mi a dat eroare, imi zicea ca e out of range
 
 def test_2():
     D = 200
-    k = 5
+    k = 4
     carti = [[2, 130], [4, 120], [2, 80], [3, 60], [7, 50]]
-    rafturi = Biblioteca(D, k, carti)
-    assert rafturi.caut_carti() == [[130, 60],
-                                      [130, 60],
-                                      [120, 80],
-                                      [120, 80],
-                                      [120, 60],
-                                      [120, 50],
-                                      [50, 50, 50, 50],
-                                      [50, 50]]
+    with pytest.raises(ValueError, match='difera nr de intrari fata de k dat') as excinfo:
+        caut_carti(D, k, carti)
+    print(excinfo.value)
 
 
-test_1()
-test_2()
+def test_3():
+    D = 200
+    k = 5
+    carti = [[2, 1300], [4, 120], [2, 80], [3, 60], [7, 50]]
+    with pytest.raises(ValueError, match='Prea multe pagini') as excinfo:
+        caut_carti(D, k, carti)
+    print(excinfo.value)
+
+def test_4():
+    D = 0
+    k = 5
+    carti = [[2, -1], [4, -1], [2, -1], [3, -1], [7, -1]]
+    with pytest.raises(ValueError, match='nr invalid') as excinfo:
+        caut_carti(D, k, carti)
+    print(excinfo.value)
